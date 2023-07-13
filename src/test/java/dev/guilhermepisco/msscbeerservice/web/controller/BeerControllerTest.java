@@ -51,7 +51,7 @@ class BeerControllerTest {
         BeerDto beerDto = BeerDto.builder().build();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
-        mockMcv.perform(post("/api/v1/beer"+UUID.randomUUID())
+        mockMcv.perform(put("/api/v1/beer/"+UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(beerDtoJson))
                 .andExpect(status().isNoContent());
