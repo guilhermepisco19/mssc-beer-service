@@ -21,8 +21,7 @@ public class Beer {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", type = UuidGenerator.class )
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, columnDefinition = "varchar", nullable = false, updatable = false)
     private UUID id;
 
