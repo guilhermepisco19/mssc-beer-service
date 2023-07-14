@@ -1,6 +1,7 @@
 package dev.guilhermepisco.msscbeerservice.web.controller;
 
 import dev.guilhermepisco.msscbeerservice.web.model.BeerDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,7 +20,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveNewBeer(@RequestBody BeerDto beerDto){
+    public ResponseEntity<Void> saveNewBeer(@Valid @RequestBody BeerDto beerDto){
         //todo impl
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -28,7 +29,7 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity<Void> saveNewBeer(@PathVariable UUID beerId, @RequestBody BeerDto beerDto){
+    public ResponseEntity<Void> saveNewBeer(@PathVariable UUID beerId,@Valid @RequestBody BeerDto beerDto){
         //todo impl
         return ResponseEntity.noContent().build();
     }
