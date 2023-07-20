@@ -26,7 +26,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.guilhermepisco", uriPort = 80)
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
 
