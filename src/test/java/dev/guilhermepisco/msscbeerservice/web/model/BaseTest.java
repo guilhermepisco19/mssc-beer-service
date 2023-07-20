@@ -1,5 +1,7 @@
 package dev.guilhermepisco.msscbeerservice.web.model;
 
+import dev.guilhermepisco.msscbeerservice.bootstrap.BeerLoader;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -14,7 +16,7 @@ public class BaseTest {
                 .createdDate(OffsetDateTime.now())
                 .lastModifiedDate(OffsetDateTime.now())
                 .price(BigDecimal.valueOf(11.2))
-                .upc(100L)
+                .upc(BeerLoader.BEER_3_UPC)
                 .build();
     }
 }
