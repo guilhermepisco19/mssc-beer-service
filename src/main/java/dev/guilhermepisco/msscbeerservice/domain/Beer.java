@@ -3,9 +3,7 @@ package dev.guilhermepisco.msscbeerservice.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
