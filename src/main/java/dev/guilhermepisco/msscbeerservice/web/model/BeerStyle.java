@@ -1,5 +1,5 @@
 package dev.guilhermepisco.msscbeerservice.web.model;
 
 public enum BeerStyle {
-    LAGER, PISLSNER, ALE, STOUT, GOSE, IPA
+    LAGER, PILSNER, STOUT, GOSE, PORTER, ALE, WHEAT, IPA, PALE_ALE, SAISON
 }

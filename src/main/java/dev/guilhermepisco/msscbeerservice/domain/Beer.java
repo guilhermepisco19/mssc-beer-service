@@ -16,8 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Beer {
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, columnDefinition = "varchar", nullable = false, updatable = false)
