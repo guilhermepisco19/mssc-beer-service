@@ -15,6 +15,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
 @Service
@@ -25,8 +26,19 @@ public class BeerServiceImpl implements BeerService{
     private final BeerMapper beerMapper;
 
     @Override
-    public BeerPagedList listBeers(String beerName, BeerStyle beerStyle, PageRequest pageRequest) {
-        BeerPagedList beerPagedList;
+    public BeerPagedList listBeers(String beerName, BeerStyle beerStyle, PageRequest pageRequest, boolean showInventoryOnHand) {
+
+        Page<Beer> beerPage = getBeersPaged(beerName, beerStyle, pageRequest);
+
+        if (showInventoryOnHand){
+            return mapToBeerPageList(beerPage, beerMapper::beerToBeerDtoWithInventory);
+        }
+        else {
+            return mapToBeerPageList(beerPage, beerMapper::beerToBeerDto);
+        }
+
+    }
+    private Page<Beer> getBeersPaged(String beerName, BeerStyle beerStyle, PageRequest pageRequest) {
         Page<Beer> beerPage;
 
         if (StringUtils.hasText(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
@@ -41,25 +53,36 @@ public class BeerServiceImpl implements BeerService{
         } else {
             beerPage = beerRepository.findAll(pageRequest);
         }
+        return beerPage;
+    }
 
+    private BeerPagedList mapToBeerPageList(Page<Beer> beerPage, Function<Beer,BeerDto> mapper) {
+        BeerPagedList beerPagedList;
         beerPagedList = new BeerPagedList(beerPage
                 .getContent()
                 .stream()
-                .map(beerMapper::beerToBeerDto)
+                .map(mapper)
                 .toList(),
                 PageRequest
                         .of(beerPage.getPageable().getPageNumber(),
                                 beerPage.getPageable().getPageSize()),
                 beerPage.getTotalElements());
-
         return beerPagedList;
     }
 
     @Override
-    public BeerDto getBeerById(UUID beerId) {
-        return beerMapper.beerToBeerDto(
-                beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
-        );
+    public BeerDto getBeerById(UUID beerId, boolean showInventoryOnHand) {
+        if(showInventoryOnHand){
+            return beerMapper.beerToBeerDtoWithInventory(
+                    beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
+            );
+        }
+        else {
+            return beerMapper.beerToBeerDto(
+                    beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
+            );
+        }
+
     }
 
     @Override
