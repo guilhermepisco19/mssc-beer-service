@@ -8,6 +8,8 @@ import dev.guilhermepisco.msscbeerservice.web.model.BeerDto;
 import dev.guilhermepisco.msscbeerservice.web.model.BeerPagedList;
 import dev.guilhermepisco.msscbeerservice.web.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import org.springframework.util.StringUtils;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class BeerServiceImpl implements BeerService{
@@ -25,6 +28,7 @@ public class BeerServiceImpl implements BeerService{
 
     private final BeerMapper beerMapper;
 
+    @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerPagedList listBeers(String beerName, BeerStyle beerStyle, PageRequest pageRequest, boolean showInventoryOnHand) {
 
@@ -70,8 +74,10 @@ public class BeerServiceImpl implements BeerService{
         return beerPagedList;
     }
 
+    @Cacheable(cacheNames = "beerCache", key = "#beerId", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerDto getBeerById(UUID beerId, boolean showInventoryOnHand) {
+        log.info("Getting from DB");
         if(showInventoryOnHand){
             return beerMapper.beerToBeerDtoWithInventory(
                     beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
