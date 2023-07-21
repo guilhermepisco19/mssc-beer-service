@@ -46,4 +46,6 @@ public class BeerDto {
     @Positive
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal price;
+
+    private Integer quantityOnHand;
 }
