@@ -3,10 +3,12 @@ package dev.guilhermepisco.msscbeerservice.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +21,7 @@ public class Beer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", length = 36, columnDefinition = "varchar", nullable = false, updatable = false)
+    @JdbcTypeCode(Types.VARCHAR)
     private UUID id;
 
     @Version
